@@ -13,7 +13,7 @@ type LoginFormProps = {
 const LoginForm = ({ handleLogin }: LoginFormProps) => {
   // State
   const [formData, setFormData] = useState<LoginType>({
-    email: "",
+    username: "",
     password: "",
   });
 
@@ -79,18 +79,18 @@ const LoginForm = ({ handleLogin }: LoginFormProps) => {
           <div className="space-y-4">
             <div>
               <Label
-                htmlFor="email"
+                htmlFor="username"
                 className="font-semibold text-sm mb-2 block"
               >
-                Email Address
+                Username
               </Label>
               <Input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
+                type="text"
+                id="username"
+                name="username"
+                value={formData.username}
                 onChange={handleInputChange}
-                placeholder="Enter your email"
+                placeholder="Enter your username"
                 className="border-2 border-gray-300 focus:border-[#1C2526] h-11 md:h-10 px-3 rounded-lg transition-all text-sm w-full"
                 required
                 autoComplete="current-email"
