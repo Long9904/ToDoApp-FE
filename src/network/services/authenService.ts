@@ -9,3 +9,7 @@ export async function register(data: RegisterType): Promise<ApiResult<any>> {
 export async function login(data: LoginType): Promise<ApiResult<any>> {
   return apiRequest<any>("POST", "/authentication/login", data);
 }
+
+export async function loginWithGoogle(token: string): Promise<ApiResult<any>> {
+  return apiRequest<any>("POST", "/authentication/login-google", { token });
+}

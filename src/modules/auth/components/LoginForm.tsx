@@ -2,16 +2,18 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff } from "lucide-react";
-import { useState } from "react";
-import M1 from "@/assets/M1.jpg";
+import { useEffect, useState } from "react";
 import type { LoginType } from "../../../types/authType";
+import GoogleButton from "@/components/common/GoogleButton";
+import { getRandomImage } from "@/utils/imageRandom";
 
 type LoginFormProps = {
   handleLogin: (data: LoginType) => void;
+  handleGoogleLogin?: (credentialResponse: any) => void;
 };
 
-const LoginForm = ({ handleLogin }: LoginFormProps) => {
-  // State
+const LoginForm = ({ handleLogin, handleGoogleLogin }: LoginFormProps) => {
+  const [image, setImage] = useState<string>("");
   const [formData, setFormData] = useState<LoginType>({
     username: "",
     password: "",
@@ -33,6 +35,10 @@ const LoginForm = ({ handleLogin }: LoginFormProps) => {
     }));
   };
 
+  useEffect(() => {
+    getRandomImage().then(setImage);
+  }, []);
+
   return (
     <div
       className="flex flex-col md:flex-row items-center gap-6 md:gap-8  backdrop-blur-sm border rounded-2xl shadow-xl p-6 md:p-8 max-w-sm md:max-w-3xl w-full"
@@ -47,11 +53,11 @@ const LoginForm = ({ handleLogin }: LoginFormProps) => {
       <div className="flex flex-col items-center justify-center flex-1 order-1 md:order-none">
         <div className="relative">
           <img
-            src={M1}
+            src={image}
             alt="Mahihi"
             width={180}
             height={180}
-            className="drop-shadow-lg md:w-[180px] md:h-[180px] rounded-full object-cover"
+            className="md:w-[180px] md:h-[180px] rounded-full object-cover border-[var(--border-color)] border-2 transition-all duration-500 ease-in-out"
           />
         </div>
         <h1 className="text-xl  md:text-2xl font-bold  text-center mt-3 md:mt-4 mb-1">
@@ -151,7 +157,7 @@ const LoginForm = ({ handleLogin }: LoginFormProps) => {
 
           <Button
             type="submit"
-            className="w-full font-semibold py-2 px-4 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl h-11 md:h-10 text-sm mt-6"
+            className="w-full font-semibold py-2 px-4 rounded-lg transition-all duration-200 border-2 border-[var(--border-color)] hover:border-[var(--accent-color)] h-11 md:h-10 text-sm mt-6 text-center"
             style={{
               backgroundColor: "var(--button-color)",
               color: "var(--button-text-color)",
@@ -160,7 +166,12 @@ const LoginForm = ({ handleLogin }: LoginFormProps) => {
             Sign In
           </Button>
 
-          <div className="text-center text-xs pt-4 font-normal">
+          {/* Google Sign In Button */}
+          <div className="w-full flex items-center justify-center mt-3">
+            <GoogleButton handleGoogleLogin={handleGoogleLogin} />
+          </div>
+
+          <div className="text-center text-xs  font-normal">
             Don't have an account?{" "}
             <a href="/register" className="hover:underline font-bold">
               Sign up here

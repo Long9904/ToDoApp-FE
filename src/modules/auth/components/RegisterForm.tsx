@@ -2,16 +2,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import M1 from "@/assets/M1.jpg";
 import type { RegisterType } from "../../../types/authType";
+import { getRandomImage } from "@/utils/imageRandom";
 
 type RegisterFormProps = {
   handleRegister: (data: RegisterType) => Promise<{ isSuccess: boolean }>;
 };
 
 const RegisterForm = ({ handleRegister }: RegisterFormProps) => {
+  const [image, setImage] = useState<string>("");
   const [showPassword, setShowPassword] = useState(false);
 
   const {
@@ -28,6 +29,10 @@ const RegisterForm = ({ handleRegister }: RegisterFormProps) => {
     }
   };
 
+  useEffect(() => {
+    getRandomImage().then(setImage);
+  }, []);
+
   return (
     <div
       className="flex flex-col md:flex-row items-center gap-6 md:gap-8 backdrop-blur-sm border rounded-2xl shadow-xl p-6 md:p-8 max-w-sm md:max-w-3xl w-full"
@@ -42,7 +47,7 @@ const RegisterForm = ({ handleRegister }: RegisterFormProps) => {
       <div className="flex flex-col items-center justify-center flex-1 order-1 md:order-none">
         <div className="relative">
           <img
-            src={M1}
+            src={image}
             alt="Mahihi"
             width={180}
             height={180}

@@ -8,3 +8,10 @@ export type RegisterType = {
   email: string;
   password: string;
 };
+
+export type GoogleUserInfo = {
+  email: string;
+  name: string;
+  picture: string;
+  sub: string;
+};
