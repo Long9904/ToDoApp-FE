@@ -18,7 +18,7 @@ const API_URL = "https://api.waifu.pics/sfw/waifu";
 export async function getRandomImage() {
   try {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 5000);
+    const timeout = setTimeout(() => controller.abort(), 1200);
 
     const res = await fetch(API_URL, { signal: controller.signal });
     clearTimeout(timeout);
