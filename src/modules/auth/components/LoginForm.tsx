@@ -57,7 +57,7 @@ const LoginForm = ({ handleLogin, handleGoogleLogin }: LoginFormProps) => {
             alt="Mahihi"
             width={180}
             height={180}
-            className="md:w-[180px] md:h-[180px] rounded-full object-cover border-[var(--border-color)] border-2 transition-all duration-500 ease-in-out"
+            className="md:w-[180px] md:h-[180px] rounded-full object-cover border-[var(--border-color)] border-2"
           />
         </div>
         <h1 className="text-xl  md:text-2xl font-bold  text-center mt-3 md:mt-4 mb-1">
@@ -71,7 +71,7 @@ const LoginForm = ({ handleLogin, handleGoogleLogin }: LoginFormProps) => {
       {/* Divider */}
       <div
         className={
-          "w-full h-px md:w-px md:h-auto md:self-stretch bg-[var(--border-color)] order-2 md:order-none"
+          "w-full h-px md:w-px md:h-auto md:self-stretch bg-[var(--border-color)] border-1 border-[var(--border-color)] order-2 md:order-none"
         }
       ></div>
 
@@ -99,7 +99,7 @@ const LoginForm = ({ handleLogin, handleGoogleLogin }: LoginFormProps) => {
                 placeholder="Enter your username"
                 className="border-2 border-gray-300 focus:border-[#1C2526] h-11 md:h-10 px-3 rounded-lg transition-all text-sm w-full"
                 required
-                autoComplete="current-email"
+                autoComplete="current-username"
               />
             </div>
             <div>

@@ -63,7 +63,7 @@ const RegisterForm = ({ handleRegister }: RegisterFormProps) => {
       </div>
 
       {/* Divider */}
-      <div className="w-full h-px md:w-px md:h-auto md:self-stretch bg-[var(--border-color)] order-2 md:order-none"></div>
+      <div className="w-full h-px md:w-px md:h-auto md:self-stretch bg-[var(--border-color)] border-1 border-[var(--border-color)] order-2 md:order-none"></div>
 
       {/* Form Section */}
       <div className="flex-1 w-full max-w-sm md:max-w-xs order-3 md:order-none">
