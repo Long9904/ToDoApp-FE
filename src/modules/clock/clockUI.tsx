@@ -95,7 +95,7 @@ const VALID_CITIES = [
 export default function WeatherMQTT() {
   const [weather, setWeather] = useState<any>(null);
   const [client, setClient] = useState<any>(null);
-  const [selectedCity, setSelectedCity] = useState("");
+  const [, setSelectedCity] = useState("");
   const [showCitySelect, setShowCitySelect] = useState(false);
 
   useEffect(() => {
