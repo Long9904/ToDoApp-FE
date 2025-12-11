@@ -20,6 +20,7 @@ export default function WeatherMQTT() {
     client.on("message", (topic, message) => {
       try {
         const data = JSON.parse(message.toString());
+        console.log("Topic:", topic, "Message:", data);
         setWeather(data);
       } catch (err) {
         console.error("Invalid JSON", err);
