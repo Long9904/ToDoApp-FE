@@ -33,7 +33,7 @@ const UTC_OFFSETS = [
   { value: 4, label: "UTC+04:00" },
   { value: 5, label: "UTC+05:00" },
   { value: 6, label: "UTC+06:00" },
-  { value: 7, label: "UTC+07:00" },
+  { value: 7, label: "UTC+07:00 - Vietnam" },
   { value: 8, label: "UTC+08:00" },
   { value: 9, label: "UTC+09:00" },
   { value: 10, label: "UTC+10:00" },
