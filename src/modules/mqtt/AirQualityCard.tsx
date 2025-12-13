@@ -117,8 +117,8 @@ export default function AirQualityCard({ airData }: AirQualityCardProps) {
                 {getAQILevel(airData.aqi).text}
               </p>
             </div>
-            <div className="text-white text-5xl font-extralight">
-              AQI {airData.aqi}
+            <div className="text-white text-4xl font-extralight">
+              Chất lượng không khí: {airData.aqi}
             </div>
           </div>
 

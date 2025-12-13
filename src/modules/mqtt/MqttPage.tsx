@@ -1,5 +1,5 @@
 import AirQualityCard from "./AirQualityCard";
-import NotificationsCard from "./NotificationsCard";
+import ClockSetting from "./ClockSetting";
 import ScheduleCard from "./ScheduleCard";
 import WeatherCard from "./WeatherCard";
 import mqtt from "mqtt";
@@ -47,6 +47,20 @@ export default function MqttSettings() {
     setShowCitySelect(false);
   };
 
+  const handleTimeSet = (data: {
+    year: number;
+    month: number;
+    day: number;
+    hour: number;
+    minute: number;
+    second: number;
+    utcOffset: number;
+  }) => {
+    if (!client) return;
+    client.publish("set/clock", JSON.stringify(data));
+    console.log("Time set:", data);
+  };
+
   return (
     <div className="min-h-screen bg-slate-900 p-6">
       <div className="max-w-7xl mx-auto">
@@ -64,7 +78,7 @@ export default function MqttSettings() {
           />
           <AirQualityCard airData={airData} />
           <ScheduleCard />
-          <NotificationsCard />
+          <ClockSetting onTimeSet={handleTimeSet} />
         </div>
       </div>
     </div>

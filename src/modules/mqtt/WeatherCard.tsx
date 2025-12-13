@@ -4,6 +4,7 @@ import { useState } from "react";
 const VALID_CITIES = [
   { en: "Ha Noi", vi: "Hà Nội" },
   { en: "Ho Chi Minh", vi: "Hồ Chí Minh" },
+  { en: "Thu Duc", vi: "Thủ Đức" },
   { en: "Da Nang", vi: "Đà Nẵng" },
   { en: "Can Tho", vi: "Cần Thơ" },
   { en: "Bien Hoa", vi: "Biên Hòa" },
