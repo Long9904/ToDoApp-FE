@@ -1,4 +1,4 @@
-import { Bell, Clock } from "lucide-react";
+import { Clock, Globe } from "lucide-react";
 import { useState, useEffect } from "react";
 
 interface ClockSettingProps {
@@ -87,35 +87,41 @@ export default function ClockSetting({ onTimeSet }: ClockSettingProps) {
 
   return (
     <div
-      className="bg-gradient-to-br from-purple-700 via-purple-800 to-fuchsia-900 rounded-3xl p-8 flex flex-col min-h-[300px]"
+      className="bg-gradient-to-br from-gray-900 via-gray-800 to-black rounded-3xl p-8 flex flex-col min-h-[300px] border border-gray-700/50"
       style={{ fontFamily: 'var(--font-family), "Source Serif Pro", serif' }}
     >
       <div className="flex items-start justify-between mb-6">
         <div className="flex items-center gap-3">
-          <Bell className="w-6 h-6 text-purple-300" />
+          <Clock className="w-6 h-6 text-blue-400" />
           <h2 className="text-white text-2xl font-bold">Đồng hồ RTC</h2>
         </div>
+        <Globe className="w-6 h-6 text-blue-400/60" />
       </div>
 
       <div className="flex-1 flex flex-col items-center justify-center gap-6">
         {/* Current Time Display */}
         <div className="text-center">
-          <Clock className="w-20 h-20 text-purple-300/50 mx-auto mb-4" />
-          <div className="text-white text-5xl font-light mb-2">
-            {formatTime(adjustedTime)}
+          <div className="relative">
+            <div className="absolute inset-0 bg-blue-500/20 blur-3xl rounded-full"></div>
+            <div className="relative text-white text-6xl font-light mb-2 tracking-wider">
+              {formatTime(adjustedTime)}
+            </div>
           </div>
-          <div className="text-purple-200 text-xl">
+          <div className="text-gray-400 text-xl mt-2">
             {formatDate(adjustedTime)}
           </div>
         </div>
 
         {/* UTC Offset Selector */}
         <div className="w-full max-w-xs">
-          <label className="block text-purple-200 text-sm mb-2">Múi giờ</label>
+          <label className=" text-gray-400 text-sm mb-2 flex items-center gap-2">
+            <Globe className="w-4 h-4" />
+            Múi giờ
+          </label>
           <select
             value={utcOffset}
             onChange={(e) => setUtcOffset(Number(e.target.value))}
-            className="w-full bg-purple-600/100  text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all"
+            className="w-full bg-gray-800 text-white rounded-xl px-4 py-3 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
           >
             {UTC_OFFSETS.map((offset) => (
               <option key={offset.value} value={offset.value}>
@@ -128,7 +134,7 @@ export default function ClockSetting({ onTimeSet }: ClockSettingProps) {
         {/* Set Time Button */}
         <button
           onClick={handleSetTime}
-          className="px-8 py-3 bg-purple-500/40 hover:bg-purple-500/60 rounded-xl text-white text-lg font-semibold transition-colors shadow-lg"
+          className="px-8 py-3 bg-blue-600 hover:bg-blue-700 rounded-xl text-white text-lg font-semibold transition-all shadow-lg hover:shadow-blue-500/50 transform hover:scale-105 active:scale-95"
         >
           Đồng bộ RTC
         </button>

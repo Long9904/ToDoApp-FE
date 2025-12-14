@@ -1,6 +1,6 @@
 import AirQualityCard from "./AirQualityCard";
 import ClockSetting from "./ClockSetting";
-import ScheduleCard from "./ScheduleCard";
+import AlarmScheduleCard from "./ScheduleCard";
 import WeatherCard from "./WeatherCard";
 import mqtt from "mqtt";
 import { useEffect, useState } from "react";
@@ -27,7 +27,6 @@ export default function MqttSettings() {
           setWeather(data);
         } else if (topic === "out/air-quality") {
           setAirData(data);
-          console.log(data);
         }
       } catch (err) {
         console.error("Invalid JSON", err);
@@ -47,6 +46,7 @@ export default function MqttSettings() {
     setShowCitySelect(false);
   };
 
+  // Handle time set RTC from ClockSetting
   const handleTimeSet = (data: {
     year: number;
     month: number;
@@ -58,11 +58,20 @@ export default function MqttSettings() {
   }) => {
     if (!client) return;
     client.publish("set/clock", JSON.stringify(data));
-    console.log("Time set:", data);
+  };
+
+  // Handle alarm set from AlarmScheduleCard
+  const handleAlarmSet = (data: {
+    days: number[];
+    hour: number;
+    minute: number;
+  }) => {
+    if (!client) return;
+    client.publish("set/alarm", JSON.stringify(data));
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-gray-900 p-6">
       <div className="max-w-7xl mx-auto">
         <div
           className="grid grid-cols-1 lg:grid-cols-2 gap-6"
@@ -77,7 +86,7 @@ export default function MqttSettings() {
             setShowCitySelect={setShowCitySelect}
           />
           <AirQualityCard airData={airData} />
-          <ScheduleCard />
+          <AlarmScheduleCard onAlarmSet={handleAlarmSet} />
           <ClockSetting onTimeSet={handleTimeSet} />
         </div>
       </div>
