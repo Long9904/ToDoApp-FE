@@ -43,16 +43,35 @@ const UTC_OFFSETS = [
 
 export default function ClockSetting({ onTimeSet }: ClockSettingProps) {
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [utcOffset, setUtcOffset] = useState(7); // Default UTC+7
+  const [utcOffset, setUtcOffset] = useState(7);
+  const [manualMode, setManualMode] = useState(false);
+  const [manualYear, setManualYear] = useState(new Date().getFullYear());
+  const [manualMonth, setManualMonth] = useState(new Date().getMonth() + 1);
+  const [manualDay, setManualDay] = useState(new Date().getDate());
+  const [manualHour, setManualHour] = useState(new Date().getHours());
+  const [manualMinute, setManualMinute] = useState(new Date().getMinutes());
+  const [manualSecond, setManualSecond] = useState(new Date().getSeconds());
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
+    if (!manualMode) {
+      const timer = setInterval(() => {
+        setCurrentTime(new Date());
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [manualMode]);
 
   const getAdjustedTime = () => {
+    if (manualMode) {
+      return new Date(
+        manualYear,
+        manualMonth - 1,
+        manualDay,
+        manualHour,
+        manualMinute,
+        manualSecond
+      );
+    }
     const utc = currentTime.getTime() + currentTime.getTimezoneOffset() * 60000;
     return new Date(utc + 3600000 * utcOffset);
   };
@@ -85,6 +104,17 @@ export default function ClockSetting({ onTimeSet }: ClockSettingProps) {
     });
   };
 
+  const toggleMode = () => {
+    const now = getAdjustedTime();
+    setManualYear(now.getFullYear());
+    setManualMonth(now.getMonth() + 1);
+    setManualDay(now.getDate());
+    setManualHour(now.getHours());
+    setManualMinute(now.getMinutes());
+    setManualSecond(now.getSeconds());
+    setManualMode(!manualMode);
+  };
+
   return (
     <div
       className="bg-gradient-to-br from-gray-900 via-gray-800 to-black rounded-3xl p-8 flex flex-col min-h-[300px] border border-gray-700/50"
@@ -99,6 +129,30 @@ export default function ClockSetting({ onTimeSet }: ClockSettingProps) {
       </div>
 
       <div className="flex-1 flex flex-col items-center justify-center gap-6">
+        {/* Mode Toggle */}
+        <div className="flex gap-2 bg-gray-800/50 rounded-xl p-1">
+          <button
+            onClick={() => setManualMode(false)}
+            className={`px-6 py-2 rounded-lg text-sm font-medium transition-all ${
+              !manualMode
+                ? "bg-blue-600 text-white shadow-lg"
+                : "text-gray-400 hover:text-white"
+            }`}
+          >
+            Thời gian thực
+          </button>
+          <button
+            onClick={toggleMode}
+            className={`px-6 py-2 rounded-lg text-sm font-medium transition-all ${
+              manualMode
+                ? "bg-blue-600 text-white shadow-lg"
+                : "text-gray-400 hover:text-white"
+            }`}
+          >
+            Điều chỉnh thủ công
+          </button>
+        </div>
+
         {/* Current Time Display */}
         <div className="text-center">
           <div className="relative">
@@ -112,24 +166,105 @@ export default function ClockSetting({ onTimeSet }: ClockSettingProps) {
           </div>
         </div>
 
-        {/* UTC Offset Selector */}
-        <div className="w-full max-w-xs">
-          <label className=" text-gray-400 text-sm mb-2 flex items-center gap-2">
-            <Globe className="w-4 h-4" />
-            Múi giờ
-          </label>
-          <select
-            value={utcOffset}
-            onChange={(e) => setUtcOffset(Number(e.target.value))}
-            className="w-full bg-gray-800 text-white rounded-xl px-4 py-3 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-          >
-            {UTC_OFFSETS.map((offset) => (
-              <option key={offset.value} value={offset.value}>
-                {offset.label}
-              </option>
-            ))}
-          </select>
-        </div>
+        {/* Manual Time Controls */}
+        {manualMode && (
+          <div className="w-full max-w-md space-y-4">
+            <div className="grid grid-cols-3 gap-3">
+              <div>
+                <label className="text-gray-400 text-xs mb-1 block">Ngày</label>
+                <input
+                  type="number"
+                  min="1"
+                  max="31"
+                  value={manualDay}
+                  onChange={(e) => setManualDay(Number(e.target.value))}
+                  className="w-full bg-gray-800 text-white rounded-lg px-3 py-2 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <label className="text-gray-400 text-xs mb-1 block">
+                  Tháng
+                </label>
+                <input
+                  type="number"
+                  min="1"
+                  max="12"
+                  value={manualMonth}
+                  onChange={(e) => setManualMonth(Number(e.target.value))}
+                  className="w-full bg-gray-800 text-white rounded-lg px-3 py-2 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <label className="text-gray-400 text-xs mb-1 block">Năm</label>
+                <input
+                  type="number"
+                  min="2000"
+                  max="2100"
+                  value={manualYear}
+                  onChange={(e) => setManualYear(Number(e.target.value))}
+                  className="w-full bg-gray-800 text-white rounded-lg px-3 py-2 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-3 gap-3">
+              <div>
+                <label className="text-gray-400 text-xs mb-1 block">Giờ</label>
+                <input
+                  type="number"
+                  min="0"
+                  max="23"
+                  value={manualHour}
+                  onChange={(e) => setManualHour(Number(e.target.value))}
+                  className="w-full bg-gray-800 text-white rounded-lg px-3 py-2 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <label className="text-gray-400 text-xs mb-1 block">Phút</label>
+                <input
+                  type="number"
+                  min="0"
+                  max="59"
+                  value={manualMinute}
+                  onChange={(e) => setManualMinute(Number(e.target.value))}
+                  className="w-full bg-gray-800 text-white rounded-lg px-3 py-2 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <label className="text-gray-400 text-xs mb-1 block">Giây</label>
+                <input
+                  type="number"
+                  min="0"
+                  max="59"
+                  value={manualSecond}
+                  onChange={(e) => setManualSecond(Number(e.target.value))}
+                  className="w-full bg-gray-800 text-white rounded-lg px-3 py-2 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* UTC Offset Selector - Only show in real-time mode */}
+        {!manualMode && (
+          <div className="w-full max-w-xs">
+            <label className="text-gray-400 text-sm mb-2 flex items-center gap-2">
+              <Globe className="w-4 h-4" />
+              Múi giờ
+            </label>
+            <select
+              value={utcOffset}
+              onChange={(e) => setUtcOffset(Number(e.target.value))}
+              className="w-full bg-gray-800 text-white rounded-xl px-4 py-3 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            >
+              {UTC_OFFSETS.map((offset) => (
+                <option key={offset.value} value={offset.value}>
+                  {offset.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
 
         {/* Set Time Button */}
         <button
