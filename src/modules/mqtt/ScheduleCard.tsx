@@ -13,13 +13,13 @@ export default function AlarmScheduleCard({
   const [minutes, setMinutes] = useState(0);
 
   const daysOfWeek = [
-    { id: 1, label: "CN", fullName: "Chủ Nhật" },
-    { id: 2, label: "T2", fullName: "Thứ Hai" },
-    { id: 3, label: "T3", fullName: "Thứ Ba" },
-    { id: 4, label: "T4", fullName: "Thứ Tư" },
-    { id: 5, label: "T5", fullName: "Thứ Năm" },
-    { id: 6, label: "T6", fullName: "Thứ Sáu" },
-    { id: 7, label: "T7", fullName: "Thứ Bảy" },
+    { id: 0, label: "CN", fullName: "Chủ Nhật" },
+    { id: 1, label: "T2", fullName: "Thứ Hai" },
+    { id: 2, label: "T3", fullName: "Thứ Ba" },
+    { id: 3, label: "T4", fullName: "Thứ Tư" },
+    { id: 4, label: "T5", fullName: "Thứ Năm" },
+    { id: 5, label: "T6", fullName: "Thứ Sáu" },
+    { id: 6, label: "T7", fullName: "Thứ Bảy" },
   ];
 
   const toggleDay = (dayId: number) => {
