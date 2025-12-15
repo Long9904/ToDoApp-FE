@@ -9,10 +9,12 @@ interface AlarmScheduleCardProps {
     hour: number;
     minute: number;
   }) => void;
+  onAlarmDelete?: () => void;
 }
 
 export default function AlarmScheduleCard({
   onAlarmSet,
+  onAlarmDelete,
 }: AlarmScheduleCardProps) {
   const now = new Date();
   const [year, setYear] = useState(now.getFullYear());
@@ -42,6 +44,13 @@ export default function AlarmScheduleCard({
         minutes < 10 ? "0" + minutes : minutes
       }`
     );
+  };
+
+  const handleDelete = () => {
+    if (onAlarmDelete) {
+      onAlarmDelete();
+    }
+    alert("Báo thức đã được xóa");
   };
 
   return (
@@ -228,13 +237,21 @@ export default function AlarmScheduleCard({
         </div>
       </div>
 
-      {/* Save Button */}
-      <button
-        onClick={handleSave}
-        className="w-full py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-r from-purple-500 to-indigo-500 text-white shadow-lg hover:shadow-purple-500/50 hover:from-purple-400 hover:to-indigo-400"
-      >
-        Đặt Báo Thức
-      </button>
+      {/* Action Buttons */}
+      <div className="grid grid-cols-2 gap-4">
+        <button
+          onClick={handleSave}
+          className="py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-r from-purple-500 to-indigo-500 text-white shadow-lg hover:shadow-purple-500/50 hover:from-purple-400 hover:to-indigo-400"
+        >
+          Đặt Báo Thức
+        </button>
+        <button
+          onClick={handleDelete}
+          className="py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-r from-red-500 to-rose-500 text-white shadow-lg hover:shadow-red-500/50 hover:from-red-400 hover:to-rose-400"
+        >
+          Xóa Báo Thức
+        </button>
+      </div>
     </div>
   );
 }

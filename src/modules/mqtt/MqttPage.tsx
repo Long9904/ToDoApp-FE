@@ -72,6 +72,11 @@ export default function MqttSettings() {
     client.publish("set/alarm", JSON.stringify(data));
   };
 
+  const handleAlarmDelete = () => {
+    if (!client) return;
+    client.publish("delete/alarm", "delete");
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-gray-900 p-6">
       <div className="max-w-7xl mx-auto">
@@ -88,7 +93,10 @@ export default function MqttSettings() {
             setShowCitySelect={setShowCitySelect}
           />
           <AirQualityCard airData={airData} />
-          <AlarmScheduleCard onAlarmSet={handleAlarmSet} />
+          <AlarmScheduleCard
+            onAlarmSet={handleAlarmSet}
+            onAlarmDelete={handleAlarmDelete}
+          />
           <ClockSetting onTimeSet={handleTimeSet} />
         </div>
       </div>
