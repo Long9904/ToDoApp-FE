@@ -60,9 +60,11 @@ export default function MqttSettings() {
     client.publish("set/clock", JSON.stringify(data));
   };
 
-  // Handle alarm set from AlarmScheduleCard
+  // Handle alarm set from AlarmScheduleCard - UPDATED interface
   const handleAlarmSet = (data: {
-    days: number[];
+    year: number;
+    month: number;
+    day: number;
     hour: number;
     minute: number;
   }) => {
