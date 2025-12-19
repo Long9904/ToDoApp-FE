@@ -12,7 +12,7 @@ export default function MqttSettings() {
   const [showCitySelect, setShowCitySelect] = useState(false);
 
   useEffect(() => {
-    const c = mqtt.connect("wss://broker.hivemq.com:8884/mqtt");
+    const c = mqtt.connect("wss://broker.hivemq.com:8884/mqtt"); //-------------//
     setClient(c);
 
     c.on("connect", () => {
